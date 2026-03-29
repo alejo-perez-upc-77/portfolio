@@ -1,0 +1,104 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Deedy Resume - Alejo Perez - One Page Optimized AI Lead
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[]{deedy-resume-openfont}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+\begin{document}
+
+\namesection{Alejo}{Pérez}{
+Stockholm, Sweden |
++46 762 924 652 |
+\href{mailto:alejperz7@gmail.com}{alejperz7@gmail.com} |
+\href{https://www.linkedin.com/in/alejo-perez-gomez-858422172/}{LinkedIn} |
+\href{https://github.com/alejo-perez-upc-77}{GitHub}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TWO-COLUMN LAYOUT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{minipage}[t]{0.33\textwidth}
+
+\section{Education}
+\subsection{Linköping University}
+\descript{MSc Statistics \& Machine Learning}
+\location{2020 – 2022 | Sweden}
+\sectionsep
+\subsection{Universitat Politècnica de Catalunya}
+\descript{BSc Biomedical Engineering}
+\location{2015 – 2020 | Spain}
+\sectionsep
+
+\section{Skills}
+\subsection{Languages} Python, TypeScript / Node.js, SQL, R
+\subsection{AI / ML} Agentic AI Systems, LLM-agnostic Platforms, Memory & Personalization Systems, Conversational/Voice Agents, Prompt Engineering
+\subsection{Backend / Fullstack} Node.js, React Native + Expo, Microservices, Spec-driven Dev, Kafka, Neo4j, Snowflake, Vector DBs
+\subsection{Cloud / DevOps} Docker, Kubernetes, Terraform/OpenTofu, CI/CD, Fault-Tolerant, Scalable AI-native Architecture
+
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.66\textwidth}
+
+\noindent\textbf{AI Lead / Agentic Systems Engineer with 8+ years} leading bleeding-edge AI platforms and agentic features, owning full-stack architecture, real-time voice agents, hyperpersonalized microlearning, and gamification systems. Experienced in designing scalable, fault-tolerant environments and running real end-users delivieries with corporate clients.
+\sectionsep
+
+\section{Experience}
+
+\runsubsection{Uniplay Learning}
+\descript{| AI Lead – Agentic Systems}
+\location{2024 – Present | Stockholm (Remote)}
+\begin{tightemize}
+\item Architected and led full ownership of AI agentic features and real-time voice agents for interactive microlearning scenarios with live evaluation feedback for corporate clients.
+\item Designed LLM-agnostic, fault-tolerant AI platform spanning backend services, orchestrated agent workflows, memory systems, and gamification modules.
+\item Built event-driven, scalable fullstack pipelines using Kafka, Neo4j, and vector DBs for scenario generation, personalization, and course content delivery.
+\item Developed mobile AI features in React Native + Expo enabling real-time agent interaction and progress tracking.
+\item Implemented spec-driven development and autonomous agent workflows to automate content generation and user-facing features (product) and accelerate feature delivery (internal way of working).
+\end{tightemize}
+\sectionsep
+
+\runsubsection{Scania}
+\descript{| ML Engineer / Intrapreneurship Program}
+\location{Nov 2022 – Present | Stockholm, Sweden}
+\begin{tightemize}
+\item Developed enterprise AI Assistant leveraging LLMs and agentic workflows, boosting developer productivity by 10\%.
+\item Led Innovation Factory Hackathon Prize project on loadmatching to reduce empty mileage; implemented cross-team Snowflake + Spark pipelines for optimization.
+\item Built scalable MLOps pipelines and containerized microservices for automated model training, validation, and serving.
+\end{tightemize}
+\sectionsep
+
+\runsubsection{Huawei Sweden}
+\descript{| Data Scientist – Master Thesis (Honors)}
+\location{Jan 2022 – Jul 2022}
+\begin{tightemize}
+\item Researched predictive models for 5G wireless channels using probabilistic and deep learning approaches.
+\end{tightemize}
+\sectionsep
+
+\runsubsection{Hospital Clínic de Barcelona}
+\descript{| Deep Learning Research – CV}
+\location{2019 – 2020}
+\begin{tightemize}
+\item Reduced diagnosis time by 30\% via deep learning preprocessing pipelines for CNN-based cancer cell classification.
+\end{tightemize}
+\sectionsep
+
+\runsubsection{Tiendeo Web Marketing}
+\descript{| Operations Developer}
+\location{2018 – 2019}
+\begin{tightemize}
+\item Automated ETL and scraping workflows, improving team productivity by 25\%.
+\end{tightemize}
+\sectionsep
+
+\section{Awards}
+\begin{tabular}{rll}
+2024 & Scania Innovation Factory Hackathon / Intrapreneurship Program \\
+2020 & CASEIB Biomedical Engineering Congress Selection
+\end{tabular}
+
+\end{minipage}
+
+\end{document}

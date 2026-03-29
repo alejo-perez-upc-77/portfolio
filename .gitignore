@@ -22,20 +22,47 @@
 
 # misc
 .DS_Store
-*.pem
+Thumbs.db
 
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+*.log
 
-# env files (can opt-in for committing if needed)
-.env*
+# env & secrets — never commit real keys (templates are allowed below)
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Keys, certs, and common secret filenames
+*.pem
+*.p12
+*.cer
+*.crt
+id_rsa
+id_rsa.pub
+*.keystore
+credentials.json
+.secrets
+**/secrets.local.*
 
 # vercel
 .vercel
 
+# turbo
+.turbo
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Cursor local editor state (paths, local MCP; adjust if you commit rules only)
+.cursor/
+
+# IDE (optional local overrides)
+.idea/
+*.swp
+*.swo
