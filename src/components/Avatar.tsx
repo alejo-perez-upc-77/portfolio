@@ -3,11 +3,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createClient, AnamClient, AnamEvent } from '@anam-ai/js-sdk';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Loader2, AlertCircle, RefreshCcw, Power } from 'lucide-react';
+import { Loader2, AlertCircle, RefreshCcw, Power, Mic, MicOff } from 'lucide-react';
 
 export function Avatar() {
   const [status, setStatus] = useState<'idle' | 'connecting' | 'streaming' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [isMuted, setIsMuted] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const clientRef = useRef<AnamClient | null>(null);
 
@@ -15,6 +16,7 @@ export function Avatar() {
     try {
       setStatus('connecting');
       setErrorMessage('');
+      setIsMuted(false);
 
       // Fetch Session Token
       const res = await fetch('/api/anam/session', { method: 'POST' });
@@ -67,6 +69,18 @@ export function Avatar() {
       clientRef.current = null;
     }
     setStatus('idle');
+    setIsMuted(false);
+  };
+
+  const toggleMute = () => {
+    if (!clientRef.current) return;
+    if (isMuted) {
+      clientRef.current.unmuteInputAudio();
+      setIsMuted(false);
+    } else {
+      clientRef.current.muteInputAudio();
+      setIsMuted(true);
+    }
   };
 
   // Cleanup on unmount
@@ -140,18 +154,33 @@ export function Avatar() {
         )}
 
         {status === 'streaming' && (
-          <motion.button
-            key="disconnect-btn"
+          <motion.div
+            key="streaming-controls"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ delay: 0.5 }}
-            onClick={disconnect}
-            className="absolute top-6 right-6 p-3 rounded-full bg-background/30 hover:bg-background/80 backdrop-blur-md text-foreground transition-all group z-20 border border-white/10 shadow-lg"
-            title="Disconnect"
+            className="absolute top-6 right-6 flex items-center gap-3 z-20"
           >
-             <Power className="w-5 h-5 group-hover:text-red-500 transition-colors" />
-          </motion.button>
+            <button
+              onClick={toggleMute}
+              className={`p-3 rounded-full backdrop-blur-md transition-all flex items-center justify-center border border-white/10 shadow-lg ${
+                isMuted 
+                  ? 'bg-red-500/80 text-white hover:bg-red-500' 
+                  : 'bg-background/30 text-foreground hover:bg-background/80'
+              }`}
+              title={isMuted ? "Unmute" : "Mute"}
+            >
+              {isMuted ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
+            </button>
+            <button
+              onClick={disconnect}
+              className="p-3 rounded-full bg-background/30 hover:bg-background/80 backdrop-blur-md text-foreground transition-all flex items-center justify-center group border border-white/10 shadow-lg"
+              title="Disconnect"
+            >
+               <Power className="w-5 h-5 group-hover:text-red-500 transition-colors" />
+            </button>
+          </motion.div>
         )}
 
         {status === 'error' && (
