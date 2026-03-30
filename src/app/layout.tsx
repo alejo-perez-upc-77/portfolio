@@ -3,6 +3,15 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
+/** Absolute origin for OG/Twitter URLs. alejo.ai does not serve og-image.* (404). */
+function siteUrl(): string {
+  const raw = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  if (raw === "https://alejo.ai" || raw === "http://alejo.ai") {
+    return "https://www.alejo-ai.dev";
+  }
+  return raw ?? "https://www.alejo-ai.dev";
+}
+
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -14,9 +23,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://alejo-ai.dev",
-  ),
+  metadataBase: new URL(siteUrl()),
   title: "Alejo Perez | AI Lead & Agentic Systems Engineer",
   description: "Portfolio of Alejo Perez, AI Lead specializing in Agentic Systems, Machine Learning, and Fullstack Architecture.",
   icons: {
