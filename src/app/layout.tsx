@@ -14,7 +14,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://alejo.ai"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://alejo-ai.dev",
+  ),
   title: "Alejo Perez | AI Lead & Agentic Systems Engineer",
   description: "Portfolio of Alejo Perez, AI Lead specializing in Agentic Systems, Machine Learning, and Fullstack Architecture.",
   icons: {
@@ -26,10 +28,11 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Alejo Perez Portfolio",
+        type: "image/jpeg",
       },
     ],
   },
@@ -37,7 +40,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Alejo Perez | AI Lead & Agentic Systems Engineer",
     description: "Portfolio of Alejo Perez, AI Lead specializing in Agentic Systems, Machine Learning, and Fullstack Architecture.",
-    images: ["/og-image.png"],
+    images: ["/og-image.jpg"],
   },
 };
 
