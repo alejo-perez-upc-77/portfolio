@@ -3,10 +3,15 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
-/** Absolute origin for OG/Twitter URLs. alejo.ai does not serve og-image.* (404). */
+/** Absolute origin for OG/Twitter URLs (no redirects). alejo.ai has no og-image.* (404). */
 function siteUrl(): string {
   const raw = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
-  if (raw === "https://alejo.ai" || raw === "http://alejo.ai") {
+  if (
+    raw === "https://alejo.ai" ||
+    raw === "http://alejo.ai" ||
+    raw === "https://alejo-ai.dev" ||
+    raw === "http://alejo-ai.dev"
+  ) {
     return "https://www.alejo-ai.dev";
   }
   return raw ?? "https://www.alejo-ai.dev";
