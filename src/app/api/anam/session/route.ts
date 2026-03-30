@@ -21,9 +21,23 @@ export async function POST() {
     });
     console.log('[Anam Session] Langfuse client initialized. Fetching prompt: "alejo-avatar-system-prompt"');
 
-    const promptObj = await langfuse.getPrompt('alejo-avatar-system-prompt', { label: 'production' });
+    const promptObj = await langfuse.prompt.get('alejo-avatar-system-prompt', { label: 'production' });
     const systemPrompt = promptObj.compile({ cv_data: getFormattedCVText() });
     console.log(`[Anam Session] Compiled system prompt successfully (${systemPrompt.length} characters).`);
+
+    console.log('[Anam Session] Fetching persona details from Anam AI to override system prompt...');
+    const personaResponse = await fetch(`https://api.anam.ai/v1/personas/${personaId}`, {
+      headers: { Authorization: `Bearer ${apiKey}` },
+    });
+
+    if (!personaResponse.ok) {
+      console.error('Anam Persona Fetch Error:', await personaResponse.text());
+      return NextResponse.json(
+        { error: 'Failed to fetch persona details from Anam AI' },
+        { status: personaResponse.status }
+      );
+    }
+    const persona = await personaResponse.json();
 
     console.log('[Anam Session] Requesting session token from Anam AI...');
     const response = await fetch('https://api.anam.ai/v1/auth/session-token', {
@@ -34,7 +48,10 @@ export async function POST() {
       },
       body: JSON.stringify({
         personaConfig: {
-          personaId: personaId,
+          name: persona.name,
+          avatarId: persona.avatar?.id,
+          voiceId: persona.voice?.id,
+          llmId: persona.llmId,
           systemPrompt: systemPrompt,
         },
       }),
