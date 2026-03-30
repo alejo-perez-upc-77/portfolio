@@ -88,22 +88,23 @@ export const skills = {
 };
 
 export function getFormattedCVText(): string {
-  let text = "EXPERIENCE\n==========\n\n";
+  const parts: string[] = [];
+
+  parts.push("PROFESSIONAL EXPERIENCE");
   experiences.forEach(exp => {
-    text += `${exp.company} - ${exp.role}\n`;
-    text += `${exp.period}${exp.location ? ` | ${exp.location}` : ""}\n`;
-    text += `${exp.description}\n\n`;
+    const location = exp.location ? `, based in ${exp.location}` : "";
+    parts.push(`${exp.company}, ${exp.role} (${exp.period}${location}): ${exp.description}`);
   });
 
-  text += "EDUCATION\n=========\n\n";
+  parts.push("EDUCATION");
   education.forEach(edu => {
-    text += `${edu.institution} - ${edu.degree}\n`;
-    text += `${edu.period}${edu.location ? ` | ${edu.location}` : ""}\n\n`;
+    const location = edu.location ? ` in ${edu.location}` : "";
+    parts.push(`${edu.degree} at ${edu.institution}${location}, graduated ${edu.period}.`);
   });
 
-  text += "SKILLS\n======\n\n";
-  text += `AI & ML: ${skills.ai_ml.join(", ")}\n`;
-  text += `Engineering: ${skills.engineering.join(", ")}\n`;
-  
-  return text;
+  parts.push("TECHNICAL SKILLS");
+  parts.push(`AI and Machine Learning: ${skills.ai_ml.join(", ")}.`);
+  parts.push(`Engineering and tools: ${skills.engineering.join(", ")}.`);
+
+  return parts.join("\n\n");
 }

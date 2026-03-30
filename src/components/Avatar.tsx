@@ -3,14 +3,24 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createClient, AnamClient, AnamEvent } from '@anam-ai/js-sdk';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Loader2, AlertCircle, RefreshCcw, Power, Mic, MicOff } from 'lucide-react';
+import { AlertCircle, RefreshCcw, Power, Mic, MicOff } from 'lucide-react';
+
+type SupportedLanguage = 'en' | 'es';
+
+const LANGUAGE_FLAGS: Record<SupportedLanguage, { flag: string; label: string }> = {
+  en: { flag: '🇬🇧', label: 'English' },
+  es: { flag: '🇪🇸', label: 'Español' },
+};
 
 export function Avatar() {
   const [status, setStatus] = useState<'idle' | 'connecting' | 'streaming' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [isMuted, setIsMuted] = useState(false);
+  const [language, setLanguage] = useState<SupportedLanguage>('en');
   const videoRef = useRef<HTMLVideoElement>(null);
   const clientRef = useRef<AnamClient | null>(null);
+
+  const isInteractive = status === 'idle' || status === 'error';
 
   const connect = async () => {
     try {
@@ -18,8 +28,11 @@ export function Avatar() {
       setErrorMessage('');
       setIsMuted(false);
 
-      // Fetch Session Token
-      const res = await fetch('/api/anam/session', { method: 'POST' });
+      const res = await fetch('/api/anam/session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ language }),
+      });
       if (!res.ok) {
         throw new Error('Failed to connect to the server (check API keys).');
       }
@@ -49,15 +62,15 @@ export function Avatar() {
       // Stream to video element (using ! because ref is attached to the video DOM node)
       await client.streamToVideoElement(videoRef.current!.id);
       
-    } catch (err: any) {
-      // Serialize all enumerable and non-enumerable properties (like .cause, .code, .status)
-      const errorDetails = JSON.stringify(err, Object.getOwnPropertyNames(err), 2);
+    } catch (err: unknown) {
+      const e = err as Record<string, unknown>;
+      const errorDetails = JSON.stringify(e, Object.getOwnPropertyNames(e), 2);
       console.error("Avatar Deep Connection Error:", errorDetails);
-      
-      const causeStr = err.cause ? (typeof err.cause === 'object' ? JSON.stringify(err.cause) : err.cause) : '';
+
+      const causeStr = e.cause ? (typeof e.cause === 'object' ? JSON.stringify(e.cause) : String(e.cause)) : '';
       const causeDisplay = causeStr ? ` (Cause: ${causeStr})` : '';
-      const detailedMessage = `${err.name || 'Error'}: ${err.message || 'An unexpected occurrence.'}${causeDisplay}`;
-      
+      const detailedMessage = `${String(e.name ?? 'Error')}: ${String(e.message ?? 'An unexpected occurrence.')}${causeDisplay}`;
+
       setErrorMessage(detailedMessage);
       setStatus('error');
     }
@@ -121,9 +134,30 @@ export function Avatar() {
                <Power className="w-8 h-8 text-accent" />
             </motion.div>
             <h3 className="text-2xl font-serif font-medium mb-2 tracking-tight">Meet Alejo AI</h3>
-            <p className="text-sm text-secondary mb-8 max-w-[200px] leading-relaxed">
+            <p className="text-sm text-secondary mb-6 max-w-[200px] leading-relaxed">
               Have a conversation with my digital twin powered by agentic AI.
             </p>
+
+            {/* Language selector */}
+            <div className="flex items-center gap-2 mb-8">
+              {(Object.entries(LANGUAGE_FLAGS) as [SupportedLanguage, { flag: string; label: string }][]).map(([lang, { flag, label }]) => (
+                <button
+                  key={lang}
+                  onClick={() => isInteractive && setLanguage(lang)}
+                  disabled={!isInteractive}
+                  title={label}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition-all disabled:opacity-40 disabled:cursor-not-allowed ${
+                    language === lang
+                      ? 'bg-accent/15 border-accent/40 text-accent'
+                      : 'bg-background/40 border-border-hairline text-secondary hover:border-accent/30 hover:text-foreground'
+                  }`}
+                >
+                  <span className="text-base leading-none">{flag}</span>
+                  <span>{label}</span>
+                </button>
+              ))}
+            </div>
+
             <button
               onClick={connect}
               className="px-8 py-3.5 rounded-full bg-accent text-white font-medium hover:bg-accent/90 transition-all shadow-md shadow-accent/25 active:scale-95"

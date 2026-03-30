@@ -1,8 +1,31 @@
 import { NextResponse } from 'next/server';
-import { LangfuseClient } from '@langfuse/client';
-import { getFormattedCVText } from '../../../../data/cv';
+import {
+  getLangfuseClient,
+  LANGFUSE_PROMPT_NAME,
+  LANGFUSE_PROMPT_LABEL,
+} from '@/lib/langfuse';
+import { getFormattedCVText } from '@/data/cv';
 
-export async function POST() {
+type SupportedLanguage = 'en' | 'es';
+
+const SUPPORTED_LANGUAGES: SupportedLanguage[] = ['en', 'es'];
+
+const LANGUAGE_INSTRUCTIONS: Record<SupportedLanguage, string> = {
+  en: 'Language: Always speak and respond exclusively in English. Never mix languages.',
+  es: 'Language: Always speak and respond exclusively in Spanish (Español). Never mix languages.',
+};
+
+/**
+ * Per-language voice overrides. Fall back to the persona's voice when not set.
+ * avatarId is shared across languages (same visual avatar).
+ * Add ANAM_VOICE_ID_ES (etc.) to .env when the Spanish voice is ready.
+ */
+const VOICE_ID_BY_LANG: Record<SupportedLanguage, string | undefined> = {
+  en: process.env.ANAM_VOICE_ID_EN,
+  es: process.env.ANAM_VOICE_ID_ES,
+};
+
+export async function POST(req: Request) {
   try {
     const apiKey = process.env.ANAM_API_KEY;
     const personaId = process.env.ANAM_AI_PERSONA_ID;
@@ -14,16 +37,21 @@ export async function POST() {
       );
     }
 
-    const langfuse = new LangfuseClient({
-      publicKey: process.env.LANGFUSE_PUBLIC_KEY,
-      secretKey: process.env.LANGFUSE_SECRET_KEY,
-      baseUrl: process.env.LANGFUSE_BASE_URL,
-    });
-    console.log('[Anam Session] Langfuse client initialized. Fetching prompt: "alejo-avatar-system-prompt"');
+    const body = await req.json().catch(() => ({}));
+    const rawLang: string = body?.language ?? 'en';
+    const language: SupportedLanguage = SUPPORTED_LANGUAGES.includes(rawLang as SupportedLanguage)
+      ? (rawLang as SupportedLanguage)
+      : 'en';
 
-    const promptObj = await langfuse.prompt.get('alejo-avatar-system-prompt', { label: 'production' });
-    const systemPrompt = promptObj.compile({ cv_data: getFormattedCVText() });
-    console.log(`[Anam Session] Compiled system prompt successfully (${systemPrompt.length} characters).`);
+    console.log(`[Anam Session] Language selected: "${language}"`);
+
+    const langfuse = getLangfuseClient();
+    console.log(`[Anam Session] Fetching prompt: "${LANGFUSE_PROMPT_NAME}"`);
+
+    const promptObj = await langfuse.prompt.get(LANGFUSE_PROMPT_NAME, { label: LANGFUSE_PROMPT_LABEL });
+    const basePrompt = promptObj.compile({ cv_data: getFormattedCVText() }) as string;
+    const systemPrompt = `${basePrompt}\n\n${LANGUAGE_INSTRUCTIONS[language]}`;
+    console.log(`[Anam Session] Compiled system prompt (${systemPrompt.length} chars, lang: ${language}).`);
 
     console.log('[Anam Session] Fetching persona details from Anam AI to override system prompt...');
     const personaResponse = await fetch(`https://api.anam.ai/v1/personas/${personaId}`, {
@@ -39,6 +67,9 @@ export async function POST() {
     }
     const persona = await personaResponse.json();
 
+    const voiceId = VOICE_ID_BY_LANG[language] ?? persona.voice?.id;
+    console.log(`[Anam Session] Using voiceId: ${voiceId ?? 'persona default'}`);
+
     console.log('[Anam Session] Requesting session token from Anam AI...');
     const response = await fetch('https://api.anam.ai/v1/auth/session-token', {
       method: 'POST',
@@ -50,9 +81,9 @@ export async function POST() {
         personaConfig: {
           name: persona.name,
           avatarId: persona.avatar?.id,
-          voiceId: persona.voice?.id,
+          voiceId,
           llmId: persona.llmId,
-          systemPrompt: systemPrompt,
+          systemPrompt,
         },
       }),
     });
