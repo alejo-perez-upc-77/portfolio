@@ -16,6 +16,28 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "Alejo Perez | AI Lead & Agentic Systems Engineer",
   description: "Portfolio of Alejo Perez, AI Lead specializing in Agentic Systems, Machine Learning, and Fullstack Architecture.",
+  icons: {
+    icon: "/favicon.ico",
+  },
+  openGraph: {
+    title: "Alejo Perez | AI Lead & Agentic Systems Engineer",
+    description: "Portfolio of Alejo Perez, AI Lead specializing in Agentic Systems, Machine Learning, and Fullstack Architecture.",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Alejo Perez Portfolio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Alejo Perez | AI Lead & Agentic Systems Engineer",
+    description: "Portfolio of Alejo Perez, AI Lead specializing in Agentic Systems, Machine Learning, and Fullstack Architecture.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({
