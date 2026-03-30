@@ -3,19 +3,11 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
-/** Absolute origin for OG/Twitter URLs (no redirects). alejo.ai has no og-image.* (404). */
-function siteUrl(): string {
-  const raw = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
-  if (
-    raw === "https://alejo.ai" ||
-    raw === "http://alejo.ai" ||
-    raw === "https://alejo-ai.dev" ||
-    raw === "http://alejo-ai.dev"
-  ) {
-    return "https://www.alejo-ai.dev";
-  }
-  return raw ?? "https://www.alejo-ai.dev";
-}
+/** Canonical origin — used for metadataBase so OG image URLs are absolute
+ *  and don't 307-redirect (WhatsApp's scraper won't follow redirects). */
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+  "https://www.alejo-ai.dev";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -28,7 +20,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl()),
+  metadataBase: new URL(SITE_URL),
   title: "Alejo Perez | AI Lead & Agentic Systems Engineer",
   description: "Portfolio of Alejo Perez, AI Lead specializing in Agentic Systems, Machine Learning, and Fullstack Architecture.",
   icons: {
