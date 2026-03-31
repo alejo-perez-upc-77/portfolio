@@ -77,6 +77,22 @@ function ExperienceLinkPill({ link }: { link: ExperienceLink }) {
 
 
 export function PortfolioSections() {
+  const prefersReducedMotion = useReducedMotion();
+
+  const dotVariants = prefersReducedMotion
+    ? { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.3 } } }
+    : {
+        hidden: { opacity: 0, scale: 0 },
+        visible: { opacity: 1, scale: 1, transition: { type: "spring" as const, stiffness: 300, damping: 20 } },
+      };
+
+  const lineSegmentVariants = prefersReducedMotion
+    ? { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.3 } } }
+    : {
+        hidden: { opacity: 0, scaleY: 0 },
+        visible: { opacity: 1, scaleY: 1, transition: { duration: 0.5, ease: "easeOut" as const } },
+      };
+
   return (
     <section className="w-full py-16">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
@@ -92,45 +108,88 @@ export function PortfolioSections() {
             Trajectory
           </motion.h2>
 
-          <div className="space-y-6">
+          <div className="relative">
             {experiences.map((exp, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                whileHover={{ scale: 1.02 }}
-                className="py-8 border-t border-border-hairline transition-all cursor-pointer hover:bg-muted/5 px-4 -mx-4 rounded-xl group"
-              >
-                <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4 gap-2">
-                  <div>
-                    <h3 className="text-xl font-bold">{exp.company}</h3>
-                    <p className="text-accent font-medium">{exp.role}</p>
+              <div key={index} className="relative pl-8">
+                {/* Vertical line segment */}
+                <motion.div
+                  className="absolute left-[5px] top-0 bottom-0 w-0 border-l-2 border-accent origin-top"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-50px" }}
+                  variants={lineSegmentVariants}
+                  aria-hidden
+                />
+
+                {/* Dot marker */}
+                <motion.div
+                  className="absolute left-0 top-9 h-3 w-3 rounded-full bg-accent"
+                  data-timeline-dot
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-50px" }}
+                  variants={dotVariants}
+                  aria-hidden
+                />
+
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  whileHover={{ scale: 1.02 }}
+                  className="py-8 border-t border-border-hairline transition-all cursor-pointer hover:bg-muted/5 px-4 -mx-4 rounded-xl group"
+                >
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4 gap-2">
+                    <div>
+                      <h3 className="text-xl font-bold">{exp.company}</h3>
+                      <p className="text-accent font-medium">{exp.role}</p>
+                    </div>
+                    <div className="text-right text-sm text-secondary font-medium whitespace-nowrap">
+                      {exp.period}
+                      {exp.location && <span className="block">{exp.location}</span>}
+                    </div>
                   </div>
-                  <div className="text-right text-sm text-secondary font-medium whitespace-nowrap">
-                    {exp.period}
-                    {exp.location && <span className="block">{exp.location}</span>}
-                  </div>
-                </div>
-                <p className="text-foreground/80 leading-relaxed text-sm md:text-base">
-                  {exp.description}
-                </p>
-                {exp.links && exp.links.length > 0 && (
-                  <motion.nav
-                    className="mt-5 flex flex-wrap gap-2.5"
-                    aria-label={`Related links for ${exp.company}`}
-                    initial="hidden"
-                    whileInView="show"
-                    viewport={{ once: true, margin: "-40px" }}
-                    variants={linkListVariants}
-                  >
-                    {exp.links.map((link) => (
-                      <ExperienceLinkPill key={link.href} link={link} />
-                    ))}
-                  </motion.nav>
-                )}
-              </motion.div>
+                  <p className="text-foreground/80 leading-relaxed text-sm md:text-base">
+                    {exp.description}
+                  </p>
+                  {exp.media && exp.media.type === "image" && (
+                    <img
+                      src={exp.media.src}
+                      alt={exp.media.alt}
+                      className="mt-4 border border-border-hairline rounded-xl"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = "none";
+                      }}
+                    />
+                  )}
+                  {exp.media && exp.media.type === "youtube" && (
+                    <div className="mt-4 aspect-video w-full overflow-hidden rounded-xl border border-border-hairline">
+                      <iframe
+                        src={`https://www.youtube.com/embed/${exp.media.videoId}?autoplay=1&mute=1&loop=1&playlist=${exp.media.videoId}&controls=0&showinfo=0&rel=0&modestbranding=1`}
+                        title={exp.media.title}
+                        allow="autoplay; encrypted-media"
+                        allowFullScreen
+                        className="w-full h-full"
+                      />
+                    </div>
+                  )}
+                  {exp.links && exp.links.length > 0 && (
+                    <motion.nav
+                      className="mt-5 flex flex-wrap gap-2.5"
+                      aria-label={`Related links for ${exp.company}`}
+                      initial="hidden"
+                      whileInView="show"
+                      viewport={{ once: true, margin: "-40px" }}
+                      variants={linkListVariants}
+                    >
+                      {exp.links.map((link) => (
+                        <ExperienceLinkPill key={link.href} link={link} />
+                      ))}
+                    </motion.nav>
+                  )}
+                </motion.div>
+              </div>
             ))}
           </div>
         </div>

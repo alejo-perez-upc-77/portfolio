@@ -102,7 +102,7 @@ export function Avatar() {
   }, []);
 
   return (
-    <div className="relative w-full aspect-[9/16] max-w-sm mx-auto overflow-hidden rounded-[2rem] border border-border-hairline shadow-sm bg-background isolate">
+    <div className="relative w-full aspect-[9/16] max-w-sm lg:ml-auto mx-auto overflow-hidden rounded-[2rem] border border-border-hairline shadow-sm bg-background isolate">
       {/* Video Element (always present but hidden until streaming) */}
       <video
         id="anam-avatar-video"

@@ -2,6 +2,10 @@ export type LinkKind = "app-store" | "google-play" | "thesis-msc" | "thesis-bsc"
 
 export type ExperienceLink = { label: string; href: string; kind: LinkKind };
 
+export type ExperienceMedia =
+  | { type: "image"; src: string; alt: string }
+  | { type: "youtube"; videoId: string; title: string };
+
 export const experiences: Array<{
   company: string;
   role: string;
@@ -9,6 +13,7 @@ export const experiences: Array<{
   location?: string;
   description: string;
   links?: ExperienceLink[];
+  media?: ExperienceMedia;
 }> = [
   {
     company: "Uniplay Learning",
@@ -29,13 +34,18 @@ export const experiences: Array<{
         href: "https://play.google.com/store/apps/details?id=com.uniplay.uniplay&pcampaignid=web_share",
       },
     ],
+    media: {
+      type: "youtube",
+      videoId: "bwEoiBHezTc",
+      title: "Uniplay Learning platform demo",
+    },
   },
   {
     company: "Scania",
     role: "ML Engineer / Intrapreneurship Program",
     period: "Nov 2022 – Present",
     location: "Stockholm, Sweden",
-    description: "Developed enterprise AI Assistant leveraging LLMs and agentic workflows, boosting developer productivity by 10%. Led Innovation Factory Hackathon on load-matching to reduce empty mileage utilizing Snowflake + Spark."
+    description: "Developed enterprise AI Assistant leveraging LLMs and agentic workflows, boosting developer productivity by 10%. Won a special prize at the Innovation Factory Hackathon, earning a position in Scania's intrapreneurship program. Built LoadMatch, a load-matching solution to reduce empty mileage utilizing Snowflake + Spark."
   },
   {
     company: "Huawei Sweden",
@@ -56,7 +66,7 @@ export const experiences: Array<{
     role: "Deep Learning Research – CV",
     period: "2019 – 2020",
     description:
-      "Reduced diagnosis time by 30% via deep learning preprocessing pipelines for CNN-based cancer cell classification.",
+      "Reduced diagnosis time by 30% via deep learning preprocessing pipelines for CNN-based cancer cell classification. Bachelor thesis paper selected for the CASEIB Biomedical Engineering Congress.",
     links: [
       {
         kind: "thesis-bsc",
@@ -85,6 +95,14 @@ export const education = [
 export const skills = {
   ai_ml: ['Agentic Systems', 'LLM-agnostic Platforms', 'Live Voice Agents', 'Vector DBs', 'RAG'],
   engineering: ['Python', 'Node.js', 'React Native', 'Kafka', 'Neo4j', 'Snowflake', 'Docker', 'CI/CD']
+};
+
+export const aboutMe = {
+  heading: "About Me",
+  narrative:
+    "Born and raised in Spain, I pursued biomedical engineering at Universitat Politècnica de Catalunya, where I discovered the power of AI through a deep learning research project at Hospital Clínic de Barcelona. That spark led me to Sweden, where I earned an MSc in Statistics & Machine Learning at Linköping University. Today I help companies build AI-powered products — from agentic systems and real-time voice agents to LLM platforms — combining 8+ years of hands-on engineering with a deep curiosity for what's next.",
+  imageSrc: "/images/imageCV.jpeg",
+  imageAlt: "Alejo Perez portrait photo",
 };
 
 export function getFormattedCVText(): string {
