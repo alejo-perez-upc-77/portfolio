@@ -93,8 +93,8 @@ export const education = [
 ];
 
 export const skills = {
-  ai_ml: ['Agentic Systems', 'LLM-agnostic Platforms', 'Live Voice Agents', 'Vector DBs', 'RAG'],
-  engineering: ['Python', 'Node.js', 'React Native', 'Kafka', 'Neo4j', 'Snowflake', 'Docker', 'CI/CD']
+  ai_ml: ['TensorFlow', 'MLFlow', 'Agentic Systems', 'LLM-agnostic Platforms', 'Live Voice Agents', 'Vector DBs', 'RAG'],
+  engineering: ['Python', 'TypeScript', 'Next.js', 'React Native', 'Node.js', 'tRPC', 'Effect', 'Kafka', 'PostgreSQL', 'Redis', 'Neo4j', 'Snowflake', 'Docker', 'Terraform', 'AWS', 'Azure', 'n8n', 'Firecrawl', 'CI/CD']
 };
 
 export const aboutMe = {

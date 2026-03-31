@@ -7,6 +7,7 @@
   --color-accent: var(--accent);
   --color-title-accent: var(--title-accent);
   --color-border-hairline: var(--border-hairline);
+  --color-open-to-work: var(--open-to-work);
   
   --font-sans: var(--font-inter), sans-serif;
   --font-serif: var(--font-playfair), serif;
@@ -19,6 +20,7 @@
   --accent: #C85A3F;
   --title-accent: #2E4C38;
   --border-hairline: rgba(42, 42, 42, 0.1);
+  --open-to-work: #22C55E;
 }
 
 .dark {
@@ -28,6 +30,7 @@
   --accent: #E07A5F;
   --title-accent: #3A6347;
   --border-hairline: rgba(245, 245, 243, 0.1);
+  --open-to-work: #4ADE80;
 }
 
 body {
@@ -36,4 +39,13 @@ body {
 }
 
 @layer utilities {
+}
+
+@keyframes border-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 var(--open-to-work), 0 0 8px 0 var(--open-to-work);
+  }
+  50% {
+    box-shadow: 0 0 0 3px transparent, 0 0 0 0 transparent;
+  }
 }

@@ -146,7 +146,7 @@ export function Avatar() {
                   onClick={() => isInteractive && setLanguage(lang)}
                   disabled={!isInteractive}
                   title={label}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition-all disabled:opacity-40 disabled:cursor-not-allowed ${
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border transition-all disabled:opacity-40 disabled:cursor-not-allowed ${
                     language === lang
                       ? 'bg-accent/15 border-accent/40 text-accent'
                       : 'bg-background/40 border-border-hairline text-secondary hover:border-accent/30 hover:text-foreground'

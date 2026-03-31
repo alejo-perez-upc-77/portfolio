@@ -83,7 +83,7 @@ export function NavigationBar() {
                 <a
                   href={`#${section.id}`}
                   onClick={(e) => handleNavClick(e, section.id)}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-title-accent ${
+                  className={`px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-title-accent ${
                     activeSection === section.id
                       ? "text-accent"
                       : "text-muted hover:text-foreground"

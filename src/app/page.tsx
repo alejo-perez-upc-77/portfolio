@@ -14,6 +14,14 @@ export default function Home() {
           {/* Hero Section */}
           <section className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
+              <div className="inline-flex items-center gap-2 rounded-full border border-open-to-work/40 bg-open-to-work/10 px-4 py-1.5 text-sm font-medium text-open-to-work"
+                   style={{ animation: "border-pulse 2.5s ease-in-out infinite" }}>
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-open-to-work opacity-75" />
+                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-open-to-work" />
+                </span>
+                Open to Work
+              </div>
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-medium leading-tight tracking-tight">
                 AI Lead & <br/>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-title-accent to-accent">

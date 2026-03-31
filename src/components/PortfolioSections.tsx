@@ -7,6 +7,7 @@ import { Apple, BookOpen, Play, ScrollText } from "lucide-react";
 
 import type { LinkKind, ExperienceLink } from "../data/cv";
 import { experiences, education, skills } from "../data/cv";
+import { TechIcon, hasTechIcon, isWordmark, getTechColor } from "./TechIcon";
 
 const LINK_META: Record<
   LinkKind,
@@ -245,22 +246,40 @@ export function PortfolioSections() {
               <div>
                 <h4 className="text-sm font-bold uppercase tracking-wider text-secondary mb-3">AI & ML</h4>
                 <div className="flex flex-wrap gap-2">
-                  {skills.ai_ml.map(skill => (
-                    <span key={skill} className="bg-muted/10 text-foreground border border-border-hairline px-3 py-1.5 rounded-full text-xs font-medium">
-                      {skill}
-                    </span>
-                  ))}
+                  {skills.ai_ml.map(skill => {
+                    const wm = isWordmark(skill);
+                    const color = getTechColor(skill);
+                    return (
+                      <span
+                        key={skill}
+                        className="inline-flex items-center gap-1.5 text-foreground border border-border-hairline px-3 py-1.5 rounded-full text-xs font-medium transition-colors"
+                        style={color ? { backgroundColor: `${color}12`, borderColor: `${color}25` } : undefined}
+                      >
+                        {hasTechIcon(skill) && <TechIcon name={skill} size={wm ? 14 : 14} />}
+                        {wm ? <span className="sr-only">{skill}</span> : skill}
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
 
               <div>
                 <h4 className="text-sm font-bold uppercase tracking-wider text-secondary mb-3">Engineering</h4>
                 <div className="flex flex-wrap gap-2">
-                  {skills.engineering.map(skill => (
-                    <span key={skill} className="bg-muted/10 text-foreground border border-border-hairline px-3 py-1.5 rounded-full text-xs font-medium">
-                      {skill}
-                    </span>
-                  ))}
+                  {skills.engineering.map(skill => {
+                    const wm = isWordmark(skill);
+                    const color = getTechColor(skill);
+                    return (
+                      <span
+                        key={skill}
+                        className="inline-flex items-center gap-1.5 text-foreground border border-border-hairline px-3 py-1.5 rounded-full text-xs font-medium transition-colors"
+                        style={color ? { backgroundColor: `${color}12`, borderColor: `${color}25` } : undefined}
+                      >
+                        {hasTechIcon(skill) && <TechIcon name={skill} size={wm ? 14 : 14} />}
+                        {wm ? <span className="sr-only">{skill}</span> : skill}
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
             </motion.div>
