@@ -1,4 +1,4 @@
-export type LinkKind = "app-store" | "google-play" | "thesis-msc" | "thesis-bsc";
+export type LinkKind = "app-store" | "google-play" | "thesis-msc" | "thesis-bsc" | "github";
 
 export type ExperienceLink = { label: string; href: string; kind: LinkKind };
 
@@ -45,7 +45,7 @@ export const experiences: Array<{
     role: "ML Engineer / Intrapreneurship Program",
     period: "Nov 2022 – Present",
     location: "Stockholm, Sweden",
-    description: "Developed enterprise AI Assistant leveraging LLMs and agentic workflows, boosting developer productivity by 10%. Won a special prize at the Innovation Factory Hackathon, earning a position in Scania's intrapreneurship program. Built LoadMatch, a load-matching solution to reduce empty mileage utilizing Snowflake + Spark."
+    description: "Developed enterprise AI Assistant leveraging LLMs and agentic workflows, boosting developer productivity by 10%. Won a special prize at the Innovation Factory Hackathon, earning a position in Scania's intrapreneurship program. Explored and prototyped LoadMatch, a load-matching venture to reduce empty mileage, as part of the intrapreneurship program utilizing Snowflake + Spark."
   },
   {
     company: "Huawei Sweden",
@@ -58,6 +58,11 @@ export const experiences: Array<{
         kind: "thesis-msc",
         label: "Master thesis (DiVA)",
         href: "https://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-186248",
+      },
+      {
+        kind: "github",
+        label: "GitHub",
+        href: "https://github.com/alejo-perez-upc-77/CrossBand_ChannelPrediction_MasterThesis",
       },
     ],
   },
@@ -72,6 +77,11 @@ export const experiences: Array<{
         kind: "thesis-bsc",
         label: "Bachelor thesis (UPCommons)",
         href: "https://hdl.handle.net/2117/182625",
+      },
+      {
+        kind: "github",
+        label: "GitHub",
+        href: "https://github.com/alejo-perez-upc-77/GANs-Lymphocytes-Bachelor_Thesis",
       },
     ],
   },

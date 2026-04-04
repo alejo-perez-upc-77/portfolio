@@ -3,7 +3,7 @@
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
-import { Apple, BookOpen, Play, ScrollText } from "lucide-react";
+import { Apple, BookOpen, GitFork, Play, ScrollText } from "lucide-react";
 
 import type { LinkKind, ExperienceLink } from "../data/cv";
 import { experiences, education, skills } from "../data/cv";
@@ -17,6 +17,7 @@ const LINK_META: Record<
   "google-play": { Icon: Play, title: "Google Play" },
   "thesis-msc": { Icon: ScrollText, title: "Master thesis" },
   "thesis-bsc": { Icon: BookOpen, title: "Bachelor thesis" },
+  "github": { Icon: GitFork, title: "GitHub repository" },
 };
 
 const linkListVariants = {
