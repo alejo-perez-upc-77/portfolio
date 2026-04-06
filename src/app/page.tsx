@@ -1,5 +1,6 @@
 import { Avatar } from "@/components/Avatar";
 import { PortfolioSections } from "@/components/PortfolioSections";
+import { ProjectsCarousel } from "@/components/ProjectsCarousel";
 import { CalendarBooking } from "@/components/CalendarBooking";
 import { NavigationBar } from "@/components/NavigationBar";
 import { AboutMe } from "@/components/AboutMe";
@@ -54,6 +55,11 @@ export default function Home() {
           {/* Portfolio trajectory */}
           <section id="trajectory">
             <PortfolioSections />
+          </section>
+
+          {/* Projects */}
+          <section id="projects">
+            <ProjectsCarousel />
           </section>
 
           {/* Contact / Calendar */}

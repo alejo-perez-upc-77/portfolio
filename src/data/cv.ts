@@ -107,6 +107,44 @@ export const skills = {
   engineering: ['Python', 'TypeScript', 'Next.js', 'React Native', 'Node.js', 'tRPC', 'Effect', 'Kafka', 'PostgreSQL', 'Redis', 'Neo4j', 'Snowflake', 'Docker', 'Terraform', 'AWS', 'Azure', 'n8n', 'Firecrawl', 'CI/CD']
 };
 
+export type Project = {
+  title: string;
+  description: string;
+  tech: string[];
+  image?: string;
+  links?: ExperienceLink[];
+};
+
+export const projects: Project[] = [
+  {
+    title: "Expiria",
+    description:
+      "A smart expiry-tracking app powered by multimodal LLMs. Snap a photo of your groceries and let AI extract expiration dates, suggest recipes before food goes bad, and reduce waste. Built end-to-end with a React Native frontend, Node.js backend, Prisma ORM over SQLite, and multimodal LLM pipelines for image understanding.",
+    tech: ["React Native", "Node.js", "Prisma", "SQLite", "Multimodal LLMs"],
+    image: "/images/expiria-screenshot.png",
+    links: [
+      {
+        kind: "github",
+        label: "GitHub",
+        href: "https://github.com/alejo-ai-labs/expire-ai",
+      },
+    ],
+  },
+  {
+    title: "This Portfolio",
+    description:
+      "The site you're looking at right now. Features an interactive AI avatar powered by Anam.ai, prompt management via Langfuse, and a clean editorial design built with React and Next.js.",
+    tech: ["React", "Next.js", "Anam.ai", "Langfuse", "TypeScript"],
+    links: [
+      {
+        kind: "github",
+        label: "GitHub",
+        href: "https://github.com/alejo-ai-labs/portfolio",
+      },
+    ],
+  },
+];
+
 export const aboutMe = {
   heading: "About Me",
   narrative:

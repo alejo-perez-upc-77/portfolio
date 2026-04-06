@@ -46,6 +46,12 @@ export const TECH_ICON_MAP: Record<string, IconEntry> = {
   "Next.js": { darkFile: "nextjs_logo_dark.svg", lightFile: "nextjs_logo_light.svg", isWordmark: true, color: "#000000", iconSize: 60 },
   "Snowflake": { file: undefined, isWordmark: false, color: "#29B5E8" },
   "Neo4j": { file: undefined, isWordmark: false, color: "#008CC1" },
+  "Prisma": { darkFile: "prisma_dark.svg", lightFile: "prisma.svg", isWordmark: false, color: "#2D3748", iconSize: 18 },
+  "SQLite": { file: undefined, isWordmark: false, color: "#003B57" },
+  "Multimodal LLMs": { file: undefined, isWordmark: false, color: "#8B5CF6" },
+  "Anam.ai": { file: undefined, isWordmark: false, color: "#10B981" },
+  "Langfuse": { file: undefined, isWordmark: false, color: "#F59E0B" },
+  "React": { darkFile: "react_wordmark_dark.svg", lightFile: "react_wordmark_light.svg", isWordmark: true, color: "#61DAFB", iconSize: 70 },
 };
 
 interface TechIconProps {

@@ -7,6 +7,7 @@ import { SocialLinks } from "@/components/SocialLinks";
 const NAV_SECTIONS = [
   { id: "about", label: "About" },
   { id: "trajectory", label: "Trajectory" },
+  { id: "projects", label: "Projects" },
   { id: "contact", label: "Contact" },
 ] as const;
 
