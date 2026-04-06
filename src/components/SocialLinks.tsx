@@ -18,7 +18,7 @@ const socialLinks = [
   },
   {
     name: "GitHub",
-    url: "https://github.com/alejo-perez-upc-77",
+    url: "https://github.com/alejo-ai-labs",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
         {/* Sketchy handmade look */}
