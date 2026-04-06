@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
+import { useCallback, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 import { Apple, ArrowUpRight, BookOpen, ChevronLeft, ChevronRight, GitFork, Play, ScrollText } from "lucide-react";
 
@@ -59,17 +59,9 @@ const slideVariants = {
   exit: (dir: number) => ({ x: dir > 0 ? -300 : 300, opacity: 0 }),
 };
 
-const slideVariantsReduced = {
-  enter: { opacity: 0 },
-  center: { opacity: 1 },
-  exit: { opacity: 0 },
-};
-
 export function ProjectsCarousel() {
-  const prefersReducedMotion = useReducedMotion();
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(0);
-  const [paused, setPaused] = useState(false);
   const constraintsRef = useRef<HTMLDivElement>(null);
 
   const paginate = useCallback(
@@ -85,16 +77,7 @@ export function ProjectsCarousel() {
     [],
   );
 
-  // Auto-advance every 7 seconds, pause on hover
-  useEffect(() => {
-    if (paused || projects.length <= 1) return;
-    const id = setInterval(() => paginate(1), 7000);
-    return () => clearInterval(id);
-  }, [paused, paginate, current]);
-
   const DRAG_THRESHOLD = 50;
-
-  const variants = prefersReducedMotion ? slideVariantsReduced : slideVariants;
   const project = projects[current];
 
   return (
@@ -135,14 +118,12 @@ export function ProjectsCarousel() {
       <div
         ref={constraintsRef}
         className="relative overflow-hidden rounded-2xl border border-border-hairline"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
       >
         <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.article
             key={current}
             custom={direction}
-            variants={variants}
+            variants={slideVariants}
             initial="enter"
             animate="center"
             exit="exit"
@@ -153,11 +134,7 @@ export function ProjectsCarousel() {
               if (info.offset.x > DRAG_THRESHOLD) paginate(-1);
               else if (info.offset.x < -DRAG_THRESHOLD) paginate(1);
             }}
-            transition={
-              prefersReducedMotion
-                ? { duration: 0.2 }
-                : { type: "spring", stiffness: 300, damping: 30 }
-            }
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="p-8 md:p-10 cursor-grab active:cursor-grabbing"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
